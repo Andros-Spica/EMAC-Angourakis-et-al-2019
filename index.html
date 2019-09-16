@@ -1,0 +1,366 @@
+<!doctype html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+
+		<title>reveal.js</title>
+
+		<link rel="stylesheet" href="css/reveal.css">
+		<link rel="stylesheet" href="css/theme/EMAC2019.css">
+
+		<!-- Theme used for syntax highlighting of code -->
+		<link rel="stylesheet" href="lib/css/zenburn.css">
+
+		<!-- Printing and PDF exports -->
+		<script>
+			var link = document.createElement( 'link' );
+			link.rel = 'stylesheet';
+			link.type = 'text/css';
+			link.href = window.location.search.match( /print-pdf/gi ) ? 'css/print/pdf.css' : 'css/print/paper.css';
+			document.getElementsByTagName( 'head' )[0].appendChild( link );
+		</script>
+	</head>
+	<body>
+		<div class="reveal">
+			<div id="marca-dagua1">
+				<div style="text-align:center; position:absolute; top:3%; left: 10%; font-size:33%; color:darkcyan">
+					<i>Angourakis et al. - <i>EMAC</i>
+				</div>
+				<div style="text-align:left; position:absolute; top:6%; left: 10%; font-size:33%; color:gray">
+					<b>17th September 2019</b>
+				</div>
+				<div style="text-align:right; position:absolute; top:6%; right: 10%; font-size:33%; color:gray">
+					<b><a href="https://andros-spica.github.io/EMAC-Angourakis-et-al-2019/">https://andros-spica.github.io/EMAC-Angourakis-et-al-2019/</a></b>
+				</div>
+			</div>
+			<div class="slides">
+				<section data-state="title-page">
+					<h2>Multivariate ‘mixed-mode’ analyses</h2>
+					for characterising archaeological ceramics using the cerUB package in R
+					<p>
+						<small style="color:DodgerBlue;">Andreas <b>Angourakis</b>, Verónica <b>Martínez Ferreras</b>, Josep M. <b>Gurt</b></small>
+						<br>
+						<small>Day 2, Session 2: <i>Session in Honour of Michael Baxter</i></small>
+					</p>
+					<small>available at 
+						<a href="https://andros-spica.github.io/EMAC-Angourakis-et-al-2019/">https://andros-spica.github.io/EMAC-Angourakis-et-al-2019/</a><br>
+						<a href="https://andros-spica.github.io/EMAC-Angourakis-et-al-2019/index.html?print-pdf">https://andros-spica.github.io/EMAC-Angourakis-et-al-2019/index.html?print-pdf</a> (printable version)</small>
+					<img src="figures/ERAAUB.jpg" alt="ERAAUB logo" 
+					style="width: 120px; border: none; box-shadow: none; position: absolute; top: 100%;right: 46%"/>
+					<img src="figures/MinisterioLogo.png" alt="Ministerio logo" 
+					style="width: 200px; border: none; box-shadow: none; position: absolute; top: 100%;right: 80%"/>
+					<img src="figures/MinisterioLogo2.png" alt="Ministerio logo 2" 
+					style="width: 200px; border: none; box-shadow: none; position: absolute; top: 120%;right: 80%"/>
+					<img src="figures/ub.png" alt="UB logo" 
+					style="width: 150px; border: none; box-shadow: none; position: absolute; top: 96%;right: 62%"/>
+					<img src="figures/logo-combo-redux.png" alt="Two Rains logo" 
+					style="width: 500px; border: none; box-shadow: none; position: absolute; top: 120%;right: 26%"/>
+					<img src="figures/logo_EMAC.png" alt="EMAC2019 logo" 
+					style="width: 200px; border: none; box-shadow: none; position: absolute; top: 100%;right: 0%; z-index: -10;"/>
+				</section>
+
+				<section>
+					<section class="fragments">
+						<br><h3>To be or not to be ---</h3>
+						<h3 class="fragment">'mixed-mode'</h3>
+					</section>
+					<section>
+						Several techniques can be applied to characterise archaeological materials
+						<br>
+						<a title="LinguisticDemographer at English Wikipedia [Public domain], via Wikimedia Commons" href="https://commons.wikimedia.org/wiki/File:XRFScan.jpg" target="_blank"><img width="256" alt="XRFScan" src="https://upload.wikimedia.org/wikipedia/commons/thumb/2/28/XRFScan.jpg/256px-XRFScan.jpg"></a>
+						<a title="Woudloper [CC BY-SA 1.0 (https://creativecommons.org/licenses/by-sa/1.0)], via Wikimedia Commons" href="https://commons.wikimedia.org/wiki/File:Thin_sections.JPG" target="_blank"><img width="256" alt="Thin sections" src="https://upload.wikimedia.org/wikipedia/commons/thumb/e/e9/Thin_sections.JPG/256px-Thin_sections.JPG"></a>
+						<br>
+						ceramics  &#8594; X-ray fluerescence, thin section petrography, etc.
+					</section>
+					<section>
+							Techniques offer different information...
+							<br>
+							<a title="Illustrator unknown [Public domain], via Wikimedia Commons" href="https://commons.wikimedia.org/wiki/File:Blind_men_and_elephant3.jpg" target="_blank"><img width="512" alt="Blind men and elephant3" src="https://upload.wikimedia.org/wikipedia/commons/f/f8/Blind_men_and_elephant3.jpg"></a>
+							<br>
+							... but also are redundant to a certain extent
+					</section>
+					<section>
+						<b>Many</b> archaeometry studies today combine the results of more than one technique, mainly by means of argumentation
+						<br><br>
+						<b>Few</b> integrate results using statistical methods
+					</section>
+					<section>
+						<div id="left40">
+							<a title="gsari at steemit.com" href="https://steemit.com/life/@gsari/perspective-matters-the-higher-logic" target="_blank"><img alt="Holism" src="https://steemitimages.com/640x0/https://pbs.twimg.com/media/CKoRlTXUsAQg8Fw.jpg:large"></a>
+						</div>
+						<div id="right60">
+								<h3>Benefits</h3>
+								<br>
+							<ul>
+								<li>Statistics using ALL information available</li>
+								<li>Synthetic visualisation</li>
+							</ul>
+						</div>
+					</section>
+					<section>
+						<div id="left40">
+							<br><br>
+							<div class="tenor-gif-embed" data-postid="5489926" data-share-method="host" data-width="100%" data-aspect-ratio="1.8085106382978722"><a href="https://tenor.com/view/lost-dog-animals-pets-dumb-gif-5489926">Lost Dog GIF</a> from <a href="https://tenor.com/search/lost-gifs">Lost GIFs</a></div><script type="text/javascript" async src="https://tenor.com/embed.js"></script>
+						</div>
+						<div id="right60">
+								<h3>Challenges</h3>
+							<ul>
+								<li>Multivariate statistics: hard and demanding</li>
+								<li>Computational tools still underdeveloped in terms of user-friendiness and documentation</li>
+								<li>Most archaeologists are not convinced by the benefits of scripting (reproducibility!)</li>
+							</ul>
+						</div>
+					</section>
+					<section>
+							Inaugural example of 'mixed-mode' analysis by Mike Baxter and colleagues:
+							<br><br>
+							<p style="font-size: 60%">
+								Baxter M J, Beardah C C, Papageorgiou I, Cau Ontiveros M-Á, Day P M and Kilikoglou V (2008). 
+								On statistical approaches to the study of ceramic artefacts using geochemical and petrographic data. <i>Archaeometry</i>, 50:142–57. 
+								<br><a href="http://doi.wiley.com/10.1111/j.1475-4754.2007.00359.x" target="_blank">http://doi.wiley.com/10.1111/j.1475-4754.2007.00359.x</a>
+							</p>
+							Presenting an approach that combines <b>geochemical</b> and <b>mineralogical</b> data 
+					</section>
+				</section>
+
+				<section>
+					<section>
+						<br><h3>A 'mixed-mode' approach to ceramics</h3>
+					</section>
+					<section>
+						<b>How to combine different types of data?</b>
+					</section>
+					<section>
+						Geochemical compositions
+						<br><img src="figures/ChemT.png" alt="chemical variables"><br>
+						numeric and continuous<br>tractable with widely-known quantitative methods
+					</section>
+					<section>
+						Macroscopic and thin-section petrography
+						<br><img src="figures/PetroT.png" alt="mineralogical variables"><br>
+						ordinal or nominal variables with no direct numeric representation*<br>
+						demands specialised methods<br><br>
+						<small>*Assuming point-counting is not used</small>
+					</section>
+					<section>
+
+					</section>
+				</section>
+
+				<section>
+					<section>
+						<h3>Four protocols</h3>
+					</section>
+					<section class="fragments">
+						<ol>
+							<li class="fragment">For geochemical data (CHEM)</li><br>
+							<li class="fragment">For mineralogic/petrographic data (PETRO)</li><br>
+							<li class="fragment">all geochemical and mineralogic/petrographic data (CHEM + PETRO)</li><br>
+							<li class="fragment">For geochemical and a subset of mineralogic/petrographic data best representing <b>provenance</b> (CHEM + PETRO<sub>PROV</sub>)</li>
+						</ol>
+					</section>
+					<section>
+						<h3>Case study: Roman wine amphorae</h3>
+						<div id="left30">
+							<br>
+							<a title="Martinez Ferreras 2014" href="http://archaeopress.com/ArchaeopressShop/Public/displayProductDetail.asp?id={D43B356E-5412-4C6E-88B0-C86E3695B6C8}" target="_blank"><img alt="Martínez Ferreras 2014" src="http://archaeopress.com/ArchaeopressShop/Photos/%7BD43B356E-5412-4C6E-88B0-C86E3695B6C8%7D-2014032615451778.JPG"></a>
+						</div>
+						<div id="right70">
+						<ul>
+							<br>
+							<li>Wine Roman amphorae from <i>Hispania Citerior-Tarraconensis</i> (Catalonia)</li><br>
+							<li>175 individuals from 15 workshops (Martínez Ferreras 2014)</li><br>
+							<li>61 individuals from 3 shipwrecks in the region (Martínez Ferreras et al. 2013, 2015)</li><br>
+							<li>Dated from c. 75 BC to c. 50 AD</li>
+						</ul>
+						</div>
+					</section>
+					<section>
+						<h3>Data sources</h3>
+						<ul>
+							<li><b>Geochemical composition</b>: X-ray fluorescence readings (XRF-WD) using a Philips PW 2400 spectrometer</li>
+							<br>
+							<li><b>Range of firing temperature</b>: estimated with mineralogical phase by X-ray diffraction readings (XRD) using Siemens D-500 and Panalytical X'Pert PRO alpha 1 diffractometers</li>
+							<br>
+							<li><b>Petrographic observations</b>: thin-section analysis using polarising optical microscope Olympus BX41, digital camera Olympus DP70, and Analysis Five software (following Whitbread 1995)</li>
+						</ul>
+					</section>
+					<section>
+						<h3>Protocol 1</h3>
+						<div id="left50">
+								<img src="figures/amp_Prot1.png" alt="prot1 plot" 
+								style="float: center; width: 500px; border: none; box-shadow: none"/>
+						</div>
+						<div id="right50" style="text-align: center">
+							<br>
+							CHEM dataset
+							<br>+<br> 
+							isometric log-ratio transformation (ILR)
+							<br>+<br> 
+							robust Principal Components Analysis (robPCA)
+						</div>
+					</section>
+					<section>
+						<h3>Protocol 2</h3>
+						<div id="left50">
+							<img src="figures/amp_Prot2.png" alt="prot2 plot" 
+							style="float: center; width: 500px; border: none; box-shadow: none"/>
+						</div>
+						<div id="right50" style="text-align: center">
+							<br>
+							PETRO dataset
+							<br>+<br> 
+							transformation to ranks<br>+<br>Relative ranking difference (RRD)<br>+<br>Principal Coordinates Analysis (PCoA)
+						</div>
+					</section>
+					<section>
+						<h3>Protocol 3</h3>
+						<div id="left50">
+							<img src="figures/amp_Prot3.png" alt="prot3 plot" 
+							style="float: center; width: 500px; border: none; box-shadow: none"/>
+						</div>
+						<div id="right50" style="text-align: center">
+							<br>
+							CHEM + PETRO dataset
+							<br>+<br>
+							<small>CHEM: centred log-ratio transformation (CLR)<br>
+							PETRO: transformation to ranks + Relative ranking difference (RRD)</small>
+							<br>+<br>
+							Extended Gower distance<br>+<br>Principal Coordinates Analysis (PCoA)
+						</div>
+					</section>
+					<section>
+						<h3>Protocol 4</h3>
+						<div id="left50">
+							<img src="figures/amp_Prot4.png" alt="prot4 plot" 
+							style="float: center; width: 500px; border: none; box-shadow: none"/>
+						</div>
+						<div id="right50" style="text-align: center">
+							<br>
+							CHEM + PETRO<sub>PROV</sub> dataset
+							<br>+<br>
+							apply procedures in Protocol 3 
+							<br>
+							<img src="figures/Prot4_Biplot3D.gif" alt="prot4 3D plot" 
+							style="float: center; width: 500px; border: none; box-shadow: none"/>
+						</div>
+					</section>
+					<section>
+						<h3>General comparison</h3>
+						<img src="figures/amp_Plots.png" alt="all amp plots" 
+						style="float: center; width: 500px; border: none; box-shadow: none"/>
+					</section>
+					<section>
+							<h3>Case study: tableware from Bactria</h3>
+							<div id="left30">
+								<br><br>
+								<a title="Kushan pottery from Termez" href="http://www.icac.cat/actualitat/noticies/2018/tenim-una-base-de-dades-de-800-ceramiques-de-lasia-central-unica-al-mon/" target="_blank"><img alt="Kushan pottery" src="http://www.icac.cat/wp-content/uploads/2018/07/Martinez_3-400x294.jpg"></a>
+							</div>
+							<div id="right70">
+								<ul>
+									<li>Tableware from NW ancient <i>Bactria</i> (Surkhan Darya region, Uzbekistan)</li>
+									<br>
+									<li>45 individuals from 4 sites: Kampyr Tepe (KPT) (Martínez Ferreras 2015) and three locations associated to ancient Termez (KT, TT, ISL) (Tsantini et al. 2016)</li>
+									<br>
+									<li>KPT dates from the Hellenistic Period (c. 327-140 BC), TT the Yuezhi Period (c. 148 BC to 78 AD), KT the Kushan-Sassanian Period (c. 280-400 AD), and ISL the Late Pre-Mongol Islamic Period (c. 1000-1200)</li>
+								</ul>
+							</div>
+					</section>
+					<section>
+							<h3>General comparison</h3>
+						<img src="figures/uzb_Plots.png" alt="all uzb plots" 
+							style="float: center; width: 500px; border: none; box-shadow: none"/>
+					</section>
+				</section>
+				
+				<section>
+					<i><b>cerUB</b></i> package in R<br><br>
+					<i style="font-size:60%">Angourakis, A., Martínez Ferreras, V., Torrano, A. and Gurt Esparraguera, J.M. (2018). Presenting multivariate statistical protocols in R using Romanwine amphorae productions in Catalonia, Spain. Journal of Archaeological Science, 93: 150-165. <a href="https://doi.org/10.1016/j.jas.2018.03.007" target="_blank">https://doi.org/10.1016/j.jas.2018.03.007</a></i>
+					<br><br>
+					Also, visit the <b>cerUB package tutorial</b>:<br><a href="https://andros-spica.github.io/cerUB_tutorial" target="_blank">https://andros-spica.github.io/cerUB_tutorial</a>
+				</section>
+				<section>
+					<p>
+						<h3>Funding</h3>
+						<small>
+							<i>Characterization and modeling of technological processes in the manufacture of ceramics from ancient societies in Central Asia. From Hellenism to Islam</i> (<b>CAMOTECCER</b>), HAR2012-32653, funded by Ministerio de Economía y Empresa, Secretaría de Estado de Investigación, Desarrollo e Innovación (Ayudas para la realización de proyectos de investigación, Subprograma de proyectos de investigación fundamental no orientada).
+							<br><i>Las sociedades antiguas complejas de Asia Central a través de la cerámica. Entre la tradición nómada y las influencias mediterráneas</i> (<b>CERAC</b>), HAR2016-75133-C3-1-P, (subprojetcs: Caracterización arqueométrica de cerámicas de Asia Central: Patrones tecnológicos, interacción y evolución cultural [CATECCER], HAR2016-75133-C3-3-1-P, and Centros de producción cerámica y centros de consumo en Asia Central: Contextualización arqueológica [CONCERAC], HAR2016-75133-C3-3-P), funded by the Ministerio de Ciencia, Innovación y Universidades (Plan Estatal de Investigación Científica y Técnica y de Innovación 2013-2016).
+							<br><b>Termez en Bactriana</b>, Fundación Palarq. Paleoantropología y Arqueología. Convocatoria del año 2017.
+						</small>
+					</p>
+					<img src="figures/ERAAUB.jpg" alt="ERAAUB logo" 
+					style="width: 120px; border: none; box-shadow: none; position: absolute; top: 100%;right: 38%"/>
+					<img src="figures/MinisterioLogo.png" alt="Ministerio logo" 
+					style="width: 250px; border: none; box-shadow: none; position: absolute; top: 100%;right: 75%"/>
+					<img src="figures/MinisterioLogo2.png" alt="Ministerio logo 2" 
+					style="width: 255px; border: none; box-shadow: none; position: absolute; top: 125%;right: 75%"/>
+					<img src="figures/ub.png" alt="UB logo" 
+					style="width: 150px; border: none; box-shadow: none; position: absolute; top: 96%;right: 55%"/>
+					<img src="figures/USAL logo.png" alt="USAL logo" 
+					style="width: 250px; border: none; box-shadow: none; position: absolute; top: 125%;right: 48%"/>
+					<img src="figures/Palarq logo.png" alt="PALARQ logo" 
+					style="width: 150px; border: none; box-shadow: none; position: absolute; top: 105%;right: 5%"/>
+					<img src="figures/FAI UZB logo.png" alt="FAI UZB logo" 
+					style="width: 200px; border: none; box-shadow: none; position: absolute; top: 125%;right: 25%"/>
+				</section>
+				<section>
+					<h2>Multivariate ‘mixed-mode’ analyses</h2>
+					for characterising archaeological ceramics using the cerUB package in R
+					<p>
+						<small style="color:DodgerBlue;">Andreas <b>Angourakis</b>, Verónica <b>Martínez Ferreras</b>, Josep M. <b>Gurt</b></small>
+						<br>
+						<small>Day 2, Session 2: <i>Session in Honour of Michael Baxter</i></small>>
+					</p>
+					<p>
+						THANK YOU!
+					</p>
+					<p>
+						<small>address any questions to A. Angourakis: <i style="color:blue">andros.spica@gmail.com</i></small>
+					</p>
+					<small>available at 
+						<a href="https://andros-spica.github.io/EMAC-Angourakis-et-al-2019/">https://andros-spica.github.io/EMAC-Angourakis-et-al-2019/</a><br>
+						<a href="https://andros-spica.github.io/EMAC-Angourakis-et-al-2019/index.html?print-pdf">https://andros-spica.github.io/EMAC-Angourakis-et-al-2019/index.html?print-pdf</a> (printable version)
+					</small>
+						<img src="figures/ERAAUB.jpg" alt="ERAAUB logo" 
+						style="width: 120px; border: none; box-shadow: none; position: absolute; top: 100%;right: 46%"/>
+						<img src="figures/MinisterioLogo.png" alt="Ministerio logo" 
+						style="width: 200px; border: none; box-shadow: none; position: absolute; top: 100%;right: 80%"/>
+						<img src="figures/MinisterioLogo2.png" alt="Ministerio logo 2" 
+						style="width: 200px; border: none; box-shadow: none; position: absolute; top: 120%;right: 80%"/>
+						<img src="figures/ub.png" alt="UB logo" 
+						style="width: 150px; border: none; box-shadow: none; position: absolute; top: 96%;right: 62%"/>
+						<img src="figures/logo-combo-redux.png" alt="Two Rains logo" 
+						style="width: 500px; border: none; box-shadow: none; position: absolute; top: 120%;right: 26%"/>
+						<img src="figures/logo_EMAC.png" alt="EMAC2019 logo" 
+						style="width: 200px; border: none; box-shadow: none; position: absolute; top: 100%;right: 0%; z-index: -10;"/>
+				</section>
+			</div>
+		</div>
+
+		<script src="lib/js/head.min.js"></script>
+		<script src="js/reveal.js"></script>
+
+		<script>
+			// More info about config & dependencies:
+			// - https://github.com/hakimel/reveal.js#configuration
+			// - https://github.com/hakimel/reveal.js#dependencies
+			Reveal.initialize({
+
+				transition: 'slide', // none/fade/slide/convex/concave/zoom
+
+				dependencies: [
+					{ src: 'plugin/markdown/marked.js' },
+					{ src: 'plugin/markdown/markdown.js' },
+					{ src: 'plugin/notes/notes.js', async: true },
+					{ src: 'plugin/highlight/highlight.js', async: true, callback: function() { hljs.initHighlightingOnLoad(); } },
+					{ src: 'plugin/search/search.js', async: true },
+					{ src: 'plugin/zoom-js/zoom.js', async: true }
+				]
+			});
+
+			// Code scraps:
+			// <a title="Notas de prensa [CC BY-SA 2.5 (https://creativecommons.org/licenses/by-sa/2.5)], via Wikimedia Commons" href="https://commons.wikimedia.org/wiki/File:Confused_man.jpg" target="_blank"><img width="300" alt="Confused man" src="https://upload.wikimedia.org/wikipedia/commons/5/59/Confused_man.jpg"></a>
+		</script>
+	</body>
+</html>
