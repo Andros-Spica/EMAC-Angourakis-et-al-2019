@@ -98,7 +98,7 @@
 							</ul>
 						</div>
 					</section>
-					<section>
+					<section class="fragments">
 						<div id="left40">
 							<br><br>
 							<div class="tenor-gif-embed" data-postid="5489926" data-share-method="host" data-width="100%" data-aspect-ratio="1.8085106382978722"><a href="https://tenor.com/view/lost-dog-animals-pets-dumb-gif-5489926">Lost Dog GIF</a> from <a href="https://tenor.com/search/lost-gifs">Lost GIFs</a></div><script type="text/javascript" async src="https://tenor.com/embed.js"></script>
@@ -106,9 +106,9 @@
 						<div id="right60">
 								<h3>Challenges</h3>
 							<ul>
-								<li>Multivariate statistics: hard and demanding</li>
-								<li>Computational tools still underdeveloped in terms of user-friendliness and documentation</li>
-								<li>Most archaeologists are not convinced by the benefits of scripting (reproducibility!)</li>
+								<li class="fragment">Multivariate statistics: hard and demanding</li>
+								<li class="fragment">Computational tools still underdeveloped in terms of user-friendliness and documentation</li>
+								<li class="fragment">Most archaeologists are not convinced by the benefits of scripting (reproducibility!)</li>
 							</ul>
 						</div>
 					</section>
@@ -143,7 +143,7 @@
 						<br><img src="figures/PetroT.png" alt="mineralogical variables"><br>
 						<b>ordinal</b> or <b>nominal</b> variables with no direct numeric representation*<br>
 						demands specialised methods<br><br>
-						<small>*Assuming point-counting is not used</small>
+						<small>*Assuming not using point-counting or similar techniques</small>
 					</section>
 					<section>
 						<b>How to count <i>oranges</i> as <i>apples</i>?</b>
@@ -177,9 +177,9 @@
 					<section class="fragments">
 						<ol>
 							<li class="fragment">For geochemical data (CHEM)</li><br>
-							<li class="fragment">For mineralogic/petrographic data (PETRO)</li><br>
-							<li class="fragment">all geochemical and mineralogic/petrographic data (CHEM + PETRO)</li><br>
-							<li class="fragment">For geochemical and a subset of mineralogic/petrographic data best representing <b>provenance</b> (CHEM + PETRO<sub>PROV</sub>)</li>
+							<li class="fragment">For mineralogical/petrographic data (PETRO)</li><br>
+							<li class="fragment">all geochemical and mineralogical/petrographic data (CHEM + PETRO)</li><br>
+							<li class="fragment">For geochemical and a subset of mineralogical/petrographic data best representing <b>provenance</b> (CHEM + PETRO<sub>PROV</sub>)</li>
 						</ol>
 					</section>
 					<section>
@@ -304,7 +304,8 @@
 				</section>
 				
 				<section>
-					The protocols can be applied using the <i><b>cerUB</b></i> and <i><b>biplot2d3d</b></i> packages in R<br><br>
+					The protocols can be applied using the <i><b>cerUB</b></i> package in R<br>
+					<small>Custom biplots can be done with <i><b>biplot2d3d</b></i></small><br>
 					<i style="font-size:60%">Angourakis, A., Martínez Ferreras, V., Torrano, A. and Gurt Esparraguera, J.M. (2018). Presenting multivariate statistical protocols in R using Romanwine amphorae productions in Catalonia, Spain. Journal of Archaeological Science, 93: 150-165. <a href="https://doi.org/10.1016/j.jas.2018.03.007" target="_blank">https://doi.org/10.1016/j.jas.2018.03.007</a></i>
 					<br><br>
 					Visit the <b>cerUB package tutorial</b>:<br><a href="https://andros-spica.github.io/cerUB_tutorial" target="_blank">https://andros-spica.github.io/cerUB_tutorial</a>
