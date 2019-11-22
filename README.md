@@ -6,7 +6,7 @@ http://www.ub.edu/emac2019/welcome/
 
 Prepared with *reveal.js* (see https://revealjs.com/)
 
-https://andros-spica.github.io/EMAC-Angourakis-et-al-2019/
+Slides: https://andros-spica.github.io/EMAC-Angourakis-et-al-2019/
 
 **Authors**  
 Angourakis, Andreas  
